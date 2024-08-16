@@ -1,0 +1,57 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="text-center">Signup</h2>
+            <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+              
+              <!-- First Name -->
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" class="form-control" [(ngModel)]="signupData.firstName" name="firstName" required>
+              </div>
+              
+              <!-- Last Name -->
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" class="form-control" [(ngModel)]="signupData.lastName" name="lastName" required>
+              </div>
+              
+              <!-- Email -->
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" [(ngModel)]="signupData.email" name="email" required>
+              </div>
+              
+              <!-- Mobile No -->
+              <div class="form-group">
+                <label for="mobile">Mobile No</label>
+                <input type="tel" id="mobile" class="form-control" [(ngModel)]="signupData.mobile" name="mobile" required>
+              </div>
+              
+              <!-- Role -->
+              <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" class="form-control" [(ngModel)]="signupData.role" name="role" required>
+                  <option value="User">User</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Guest">Guest</option>
+                </select>
+              </div>
+              
+              <!-- Password -->
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" [(ngModel)]="signupData.password" name="password" required>
+              </div>
+              
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary btn-animated btn-pulse" [disabled]="signupForm.invalid">Sign Up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
