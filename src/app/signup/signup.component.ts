@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { ActiveToast, ToastrService } from 'ngx-toastr';
+import { NgForm } from '@angular/forms'; // Import NgForm
 
 @Component({
   selector: 'app-signup',
-  standalone: true,
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
-  imports: [FormsModule] 
+  styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
   signupData = {
@@ -16,21 +15,51 @@ export class SignupComponent {
     lastName: '',
     email: '',
     mobile: '',
-    role: 'User',
+    role: 'User', // Default role
     password: ''
   };
-  
-  constructor(private authService: AuthService, private router: Router) { }
 
-  onSubmit() {
+  roles = ['User', 'Admin', 'Guest']; // Role options
+  serverErrors: { [key: string]: string } = {}
+  private toastRef: ActiveToast<any> | null = null;
+  
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
+
+  onSubmit(form: NgForm) {
+    
+    if (form.invalid) {
+      return; // Prevent submission if the form is invalid
+    }
     this.authService.signup(this.signupData).subscribe({
-      next: (response) => {
-        console.log('Signup successful', response);
-        this.router.navigate(['/login']);  // Redirect to login after successful signup
+      next: () => {
+        this.toastRef = this.toastr.success('Signup successful!', 'success');
+        setTimeout(() => {
+          this.toastRef?.toastRef.close(); 
+          this.router.navigate(['/login']);
+        }, 2000);
       },
       error: (err) => {
-        console.error('Signup failed', err);
+        this.serverErrors = {};
+
+        if (err.error && err.error.errors) {
+          // Map server errors to form fields
+          err.error.errors.forEach((error: { field: string, message: string }) => {
+            this.serverErrors[error.field] = error.message;
+          });
+        this.toastr.error('Signup Validation failed.', 'Error');
+        }else{
+        this.toastr.error(err.message, 'Error');
+
+        }
+      },
+      complete: () => {
       }
     });
+  }
+
+  // Helper method to check for errors
+  isInvalid(field: string, form: NgForm): boolean {
+    const control = form.controls[field];
+    return control && control.invalid && (control.dirty || control.touched);
   }
 }

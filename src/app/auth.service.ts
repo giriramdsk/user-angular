@@ -1,21 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loginUrl = 'https://your-backend-api.com/login';
-  private signupUrl = 'https://your-backend-api.com/signup';  // Replace with your signup API URL
+  private apiUrl = 'http://localhost:3100/api'; // Replace with your API URL
 
   constructor(private http: HttpClient) { }
 
-  login(credentials: { email: string, password: string }): Observable<any> {
-    return this.http.post<any>(this.loginUrl, credentials);
+  login(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, data);
   }
 
-  signup(signupData: any): Observable<any> {
-    return this.http.post<any>(this.signupUrl, signupData);
+  signup(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/signup`, data);
+  }
+
+  // getUsers(params: any) {
+  //   return this.http.get<any[]>(`${this.apiUrl}/users`, { params });
+  // }
+  getUsers(page: number, limit: number, sortBy: string, sortOrder: string, search: string) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('sortBy', sortBy)
+      .set('sortOrder', sortOrder)
+      .set('search', search);
+
+    return this.http.get<any>(`${this.apiUrl}/users`, { params });
   }
 }

@@ -1,4 +1,12 @@
+@import 'ngx-toastr/toastr';
 body {
     background-color: #f8f9fa;
+  }
+  
+  .toast-top-right {
+    position: fixed !important;
+    top: 20px !important;  /* Adjust top position as needed */
+    right: 20px !important; /* Adjust right position as needed */
+    margin: 0 !important;
   }
   

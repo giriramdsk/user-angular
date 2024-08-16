@@ -1,27 +1,28 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  imports: [FormsModule] // Include FormsModule here
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  credentials = {
-    email: '',
-    password: ''
-  };
+  loginData = { email: '', password: '' };
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
-  onLogin() {
-    this.authService.login(this.credentials).subscribe(response => {
-      console.log('Login successful', response);
-    }, error => {
-      console.error('Login failed', error);
+  onSubmit() {
+    this.authService.login(this.loginData).subscribe({
+      next: (response) => {
+        this.toastr.success('Login successful!', 'Success');
+        localStorage.setItem('token', response.token);
+        this.router.navigate(['/user-list']);
+      },
+      error: (err) => {
+        this.toastr.error('Login failed. Please try again.', 'Error');
+      }
     });
   }
 }
