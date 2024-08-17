@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ActiveToast, ToastrService } from 'ngx-toastr';
-import { NgForm } from '@angular/forms'; // Import NgForm
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -15,11 +15,11 @@ export class SignupComponent {
     lastName: '',
     email: '',
     mobile: '',
-    role: 'User', // Default role
+    role: 'User',
     password: ''
   };
 
-  roles = ['User', 'Admin', 'Guest']; // Role options
+  roles = ['User', 'Admin', 'Guest']; 
   serverErrors: { [key: string]: string } = {}
   private toastRef: ActiveToast<any> | null = null;
   
@@ -32,7 +32,7 @@ export class SignupComponent {
   onSubmit(form: NgForm) {
     
     if (form.invalid) {
-      return; // Prevent submission if the form is invalid
+      return;
     }
     this.authService.signup(this.signupData).subscribe({
       next: () => {
@@ -47,7 +47,6 @@ export class SignupComponent {
         this.serverErrors = {};
 
         if (err.error && err.error.errors) {
-          // Map server errors to form fields
           err.error.errors.forEach((error: { field: string, message: string }) => {
             this.serverErrors[error.field] = error.message;
           });
@@ -63,7 +62,6 @@ export class SignupComponent {
     });
   }
 
-  // Helper method to check for errors
   isInvalid(field: string, form: NgForm): boolean {
     const control = form.controls[field];
     return control && control.invalid && (control.dirty || control.touched);

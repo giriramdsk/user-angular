@@ -13,16 +13,6 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router,private authStateService: AuthStateService) {}
 
-  // ngOnInit() {
-  //   this.authStateService.authState$.subscribe((isLoggedIn) => {
-  //     this.isLoggedIn = isLoggedIn;
-  //   });
-
-  //   // Check if already authenticated when the app loads
-  //   this.isLoggedIn = this.authService.isAuthenticated()
-
-
-  // }
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

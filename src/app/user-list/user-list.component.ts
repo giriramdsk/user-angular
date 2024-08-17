@@ -24,8 +24,8 @@ export class UserListComponent implements OnInit {
   loadUsers(): void {
     this.authService.getUsers(this.page, this.pageSize, this.sortField, this.sortOrder, this.searchTerm).subscribe({
       next: (response: any) => {
-        this.users = response.docs; // Adjust based on your actual response structure
-        this.totalPages = response.totalPages; // Adjust based on your actual response structure
+        this.users = response.docs; 
+        this.totalPages = response.totalPages; 
       },
       error: (err) => {
         console.error('Failed to load users', err);
@@ -33,17 +33,6 @@ export class UserListComponent implements OnInit {
     });
   }
   
-  // loadUsers(): void {
-  //   this.authService.getUsers(this.page, this.pageSize, this.sortField, this.sortOrder, this.searchTerm).subscribe({
-  //     next: (response: any) => {
-  //       this.users = response.docs;
-  //       this.totalPages = response.totalPages;
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to load users', err);
-  //     }
-  //   });
-  // }
 
   toggleSortOrder(): void {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';

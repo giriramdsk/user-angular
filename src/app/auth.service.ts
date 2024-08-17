@@ -18,9 +18,6 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/auth/signup`, data);
   }
 
-  // getUsers(params: any) {
-  //   return this.http.get<any[]>(`${this.apiUrl}/users`, { params });
-  // }
   getUsers(page: number, limit: number, sortBy: string, sortOrder: string, search: string) {
     let params = new HttpParams()
       .set('page', page.toString())

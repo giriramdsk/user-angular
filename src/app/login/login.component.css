@@ -19,7 +19,6 @@
     transform: scale(1.05);
   }
   
-  /* Adding Animation on Click */
   .btn-animated:active {
     animation: clickEffect 0.2s ease;
   }
