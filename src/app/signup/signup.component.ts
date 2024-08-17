@@ -25,6 +25,10 @@ export class SignupComponent {
   
   constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
+  ngOnInit(): void {
+    localStorage.removeItem('token');
+  }
+
   onSubmit(form: NgForm) {
     
     if (form.invalid) {
@@ -39,6 +43,7 @@ export class SignupComponent {
         }, 2000);
       },
       error: (err) => {
+        console.log(err)
         this.serverErrors = {};
 
         if (err.error && err.error.errors) {
@@ -48,7 +53,8 @@ export class SignupComponent {
           });
         this.toastr.error('Signup Validation failed.', 'Error');
         }else{
-        this.toastr.error(err.message, 'Error');
+
+        this.toastr.error(err.error.message, 'Error');
 
         }
       },

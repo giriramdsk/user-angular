@@ -31,4 +31,12 @@ export class AuthService {
 
     return this.http.get<any>(`${this.apiUrl}/users`, { params });
   }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token'); // Example token check
+  }
+
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/auth/logout`, {});
+  }
 }
